@@ -42,6 +42,23 @@ namespace HomeApp
             services.AddTransient<IStudentService, StudentService>();
 
             services.AddSwaggerGen();
+
+            services.AddCors(options =>
+            {
+                IEnumerable<KeyValuePair<string, string>> hosts = Configuration.GetSection("AllowedHosts").AsEnumerable();
+                string[] data = hosts.Where(o => o.Value != null).Select(o => o.Value).ToArray();
+
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithOrigins(data)
+                            .AllowCredentials()
+                            .WithExposedHeaders("Content-Disposition");
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +69,8 @@ namespace HomeApp
                 var context = serviceScope.ServiceProvider.GetRequiredService<HomeDbContext>();
                 context.Database.Migrate();
             }
+
+            app.UseCors("CorsPolicy");
 
             app.UseSwagger();
 
