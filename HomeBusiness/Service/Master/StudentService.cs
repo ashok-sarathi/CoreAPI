@@ -10,6 +10,7 @@ namespace HomeBusiness.Service.Master
     public interface IStudentService
     {
         IEnumerable<StudentModel> GetAll();
+        StudentModel GetSingle(Guid id);
     }
     public class StudentService :  IStudentService
     {
@@ -27,6 +28,17 @@ namespace HomeBusiness.Service.Master
                 Name = o.Name,
                 SectionId = o.SectionId
             }).ToList();
+        }
+
+        public StudentModel GetSingle(Guid id)
+        {
+            var data = _uow.Student.GetSingle(id);
+            return new StudentModel()
+            {
+                Id = data.Id,
+                Name = data.Name,
+                SectionId = data.SectionId
+            };
         }
     }
 }
