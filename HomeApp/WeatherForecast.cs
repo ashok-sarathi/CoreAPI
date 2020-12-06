@@ -1,6 +1,6 @@
 using System;
 
-namespace CoreAPI
+namespace HomeApp
 {
     public class WeatherForecast
     {
