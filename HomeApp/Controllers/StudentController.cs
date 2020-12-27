@@ -28,7 +28,7 @@ namespace HomeApp.Controllers
         [HttpGet("[action]/{id}")]
         public StudentModel GetSingle(Guid id)
         {
-            return _service.GetSingle(id);
+            return  _service.GetSingle(id);
         }
 
     }
